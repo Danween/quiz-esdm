@@ -9,7 +9,7 @@ const CONFIG = {
     // 3. Copy Bin ID dan X-Master-Key
     USE_JSONBIN: true, // Set true untuk pakai JSONBin.io
     JSONBIN_BIN_ID: '6953453aae596e708fb93aa6', // Bin ID dari JSONBin
-    JSONBIN_API_KEY: '$2a$10$0xvtMrtQ7pvA1LSqaUntXOtqkMfINyqr8ck7YqgBn0bbGSAzC6ise', // X-Master-Key dari JSONBin
+    JSONBIN_API_KEY: '$2a$10$U7S9BIp0OvtRud.X7BmGyuU/E85luvzicc7zURmtyKYm6qG8s4qp6', // X-Master-Key dari JSONBin
     
     SYNC_INTERVAL: 2000 // Sync setiap 2 detik
 };
