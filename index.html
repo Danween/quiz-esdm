@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz ESDM Provinsi Jambi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-amber-600 to-amber-900 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full">
+        <!-- Logo/Header -->
+        <div class="text-center mb-8">
+            <div class="bg-white rounded-full w-32 h-32 mx-auto mb-6 flex items-center justify-center shadow-2xl">
+                <i class="fas fa-bolt text-amber-600 text-6xl"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-white mb-2">Quiz ESDM</h1>
+            <p class="text-amber-100 text-lg">Dinas ESDM Provinsi Jambi</p>
+        </div>
+
+        <!-- QR Code Card -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 text-center">
+            <div class="mb-6">
+                <i class="fas fa-qrcode text-amber-600 text-8xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Scan untuk Mulai</h2>
+                <p class="text-gray-600">Scan QR Code untuk mengikuti quiz interaktif</p>
+            </div>
+
+            <div class="bg-amber-50 border-2 border-dashed border-amber-400 rounded-xl p-6 mb-6">
+                <div id="qrcode" class="flex justify-center items-center">
+                    <!-- QR Code placeholder - in production use QR generator -->
+                    <div class="w-48 h-48 bg-white border-4 border-amber-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-qrcode text-amber-600 text-6xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Access Button -->
+            <div class="border-t border-gray-200 pt-6">
+                <p class="text-gray-500 text-sm mb-3">Atau akses langsung:</p>
+                <a href="register.html" class="inline-block bg-amber-600 hover:bg-amber-700 text-white font-semibold px-8 py-3 rounded-full transition duration-300 transform hover:scale-105">
+                    <i class="fas fa-play-circle mr-2"></i>
+                    Mulai Quiz
+                </a>
+            </div>
+        </div>
+
+        <!-- Admin Access -->
+        <div class="text-center mt-6">
+            <a href="admin.html" class="text-white hover:text-amber-200 text-sm transition duration-300">
+                <i class="fas fa-user-shield mr-1"></i>
+                Panel Admin
+            </a>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

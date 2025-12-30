@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi - Quiz ESDM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-amber-600 to-amber-900 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="bg-white rounded-full w-24 h-24 mx-auto mb-4 flex items-center justify-center shadow-xl">
+                <i class="fas fa-user-plus text-amber-600 text-4xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-2">Daftar Peserta</h1>
+            <p class="text-amber-100">Isi data diri untuk mengikuti quiz</p>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <form id="registerForm" class="space-y-5">
+                <!-- Nama -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-user mr-2 text-amber-600"></i>Nama Lengkap
+                    </label>
+                    <input 
+                        type="text" 
+                        id="nama" 
+                        required 
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-amber-500 focus:outline-none transition duration-300"
+                        placeholder="Masukkan nama lengkap">
+                </div>
+
+                <!-- No HP -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-phone mr-2 text-amber-600"></i>No. Handphone
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="noHp" 
+                        required 
+                        pattern="[0-9]{10,13}"
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-amber-500 focus:outline-none transition duration-300"
+                        placeholder="Contoh: 081234567890">
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-envelope mr-2 text-amber-600"></i>Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        required 
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-amber-500 focus:outline-none transition duration-300"
+                        placeholder="contoh@email.com">
+                </div>
+
+                <!-- Asal Instansi/Sekolah -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-building mr-2 text-amber-600"></i>Asal Instansi/Sekolah
+                    </label>
+                    <input 
+                        type="text" 
+                        id="instansi" 
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-amber-500 focus:outline-none transition duration-300"
+                        placeholder="Nama instansi atau sekolah (opsional)">
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Daftar Sekarang
+                </button>
+            </form>
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center mt-6">
+            <a href="index.html" class="text-white hover:text-amber-200 transition duration-300">
+                <i class="fas fa-arrow-left mr-1"></i>
+                Kembali
+            </a>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const participant = {
+                id: Date.now(),
+                nama: document.getElementById('nama').value.trim(),
+                noHp: document.getElementById('noHp').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                instansi: document.getElementById('instansi').value.trim() || '-',
+                status: 'waiting', // waiting, playing, finished
+                score: 0,
+                totalQuestions: 0,
+                answers: [],
+                currentQuestion: 0,
+                registeredAt: new Date().toISOString()
+            };
+
+            // Save to server/localStorage
+            let participants = await QuizApp.getParticipants();
+            participants.unshift(participant); // Add to beginning
+            await QuizApp.saveParticipants(participants);
+
+            // Save current participant to session
+            sessionStorage.setItem('currentParticipant', JSON.stringify(participant));
+
+            // Redirect to ready page
+            window.location.href = 'ready.html';
+        });
+    </script>
+</body>
+</html>

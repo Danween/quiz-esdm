@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Quiz ESDM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-amber-600 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-shield text-3xl"></i>
+                    <div>
+                        <h1 class="text-2xl font-bold">Admin Panel</h1>
+                        <p class="text-amber-100 text-sm">Quiz ESDM Provinsi Jambi</p>
+                    </div>
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="refreshParticipants()" class="bg-amber-700 hover:bg-amber-800 px-4 py-2 rounded-lg transition duration-300">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh
+                    </button>
+                    <a href="display.html" target="_blank" class="bg-white text-amber-600 hover:bg-amber-50 px-4 py-2 rounded-lg transition duration-300 font-semibold">
+                        <i class="fas fa-tv mr-2"></i>Buka Tampilan TV
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm">Total Peserta</p>
+                        <p class="text-3xl font-bold text-gray-800" id="totalParticipants">0</p>
+                    </div>
+                    <i class="fas fa-users text-4xl text-blue-500"></i>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm">Menunggu</p>
+                        <p class="text-3xl font-bold text-gray-800" id="waitingParticipants">0</p>
+                    </div>
+                    <i class="fas fa-hourglass-half text-4xl text-yellow-500"></i>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm">Sedang Main</p>
+                        <p class="text-3xl font-bold text-gray-800" id="playingParticipants">0</p>
+                    </div>
+                    <i class="fas fa-gamepad text-4xl text-green-500"></i>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm">Selesai</p>
+                        <p class="text-3xl font-bold text-gray-800" id="finishedParticipants">0</p>
+                    </div>
+                    <i class="fas fa-check-circle text-4xl text-purple-500"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Participants List -->
+        <div class="bg-white rounded-xl shadow-lg">
+            <div class="border-b border-gray-200 px-6 py-4">
+                <h2 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-list mr-2 text-amber-600"></i>
+                    Daftar Peserta
+                </h2>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No HP</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Instansi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Skor</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="participantsTableBody" class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td colspan="8" class="px-6 py-8 text-center text-gray-500">
+                                <i class="fas fa-inbox text-4xl mb-2"></i>
+                                <p>Belum ada peserta yang terdaftar</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+    <script>
+        async function refreshParticipants() {
+            const participants = await QuizApp.getParticipants();
+            const tbody = document.getElementById('participantsTableBody');
+
+            // Update stats
+            document.getElementById('totalParticipants').textContent = participants.length;
+            document.getElementById('waitingParticipants').textContent = participants.filter(p => p.status === 'waiting').length;
+            document.getElementById('playingParticipants').textContent = participants.filter(p => p.status === 'playing').length;
+            document.getElementById('finishedParticipants').textContent = participants.filter(p => p.status === 'finished').length;
+
+            if (participants.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="px-6 py-8 text-center text-gray-500">
+                            <i class="fas fa-inbox text-4xl mb-2"></i>
+                            <p>Belum ada peserta yang terdaftar</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = participants.map((p, index) => {
+                let statusBadge = '';
+                let actionBtn = '';
+
+                if (p.status === 'waiting') {
+                    statusBadge = '<span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Menunggu</span>';
+                    actionBtn = `<button onclick="startQuiz(${p.id})" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-300 text-sm font-semibold"><i class="fas fa-play mr-1"></i> Mulai</button>`;
+                } else if (p.status === 'playing') {
+                    statusBadge = '<span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Sedang Main</span>';
+                    actionBtn = `<button onclick="openDisplayForParticipant(${p.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 text-sm font-semibold"><i class="fas fa-tv mr-1"></i> Lihat</button>`;
+                } else if (p.status === 'finished') {
+                    statusBadge = '<span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">Selesai</span>';
+                    actionBtn = `<button onclick="viewResult(${p.id})" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition duration-300 text-sm font-semibold"><i class="fas fa-eye mr-1"></i> Hasil</button>`;
+                }
+
+                return `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm text-gray-900">${index + 1}</td>
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">${p.nama}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${p.noHp}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${p.email}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${p.instansi}</td>
+                        <td class="px-6 py-4">${statusBadge}</td>
+                        <td class="px-6 py-4 text-sm font-bold text-amber-600">${p.score || 0}</td>
+                        <td class="px-6 py-4">${actionBtn}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function startQuiz(participantId) {
+            const participants = await QuizApp.getParticipants();
+            const pIndex = participants.findIndex(p => p.id === participantId);
+
+            if (pIndex === -1) return;
+
+            // Generate random questions (7-10)
+            const numQuestions = Math.floor(Math.random() * 4) + 7;
+            const shuffled = [...questionBank].sort(() => Math.random() - 0.5);
+            const selectedQuestions = shuffled.slice(0, numQuestions);
+
+            participants[pIndex].status = 'playing';
+            participants[pIndex].questions = selectedQuestions;
+            participants[pIndex].currentQuestion = 0;
+            participants[pIndex].score = 0;
+            participants[pIndex].answers = [];
+            participants[pIndex].startedAt = new Date().toISOString();
+
+            await QuizApp.saveParticipants(participants);
+            localStorage.setItem('activeParticipantId', participantId);
+
+            refreshParticipants();
+
+            // Open display page
+            window.open('display.html', 'tvDisplay');
+        }
+
+        function openDisplayForParticipant(participantId) {
+            localStorage.setItem('activeParticipantId', participantId);
+            window.open('display.html', 'tvDisplay');
+        }
+
+        async function viewResult(participantId) {
+            const participants = await QuizApp.getParticipants();
+            const participant = participants.find(p => p.id === participantId);
+            
+            if (!participant) return;
+
+            const totalQuestions = participant.questions?.length || 0;
+            const score = participant.score || 0;
+            const percentage = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
+
+            alert(`Hasil Quiz - ${participant.nama}\n\nTotal Soal: ${totalQuestions}\nBenar: ${score}\nSalah: ${totalQuestions - score}\nPersentase: ${percentage}%`);
+        }
+
+        // Auto refresh every 2 seconds
+        setInterval(refreshParticipants, 2000);
+
+        // Initial load
+        refreshParticipants();
+
+        // Listen to storage events
+        window.addEventListener('storage', refreshParticipants);
+    </script>
+</body>
+</html>
