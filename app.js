@@ -23,7 +23,7 @@ if (!localStorage.getItem('participants')) {
 const JSONBinSync = {
     // Fetch participants from JSONBin
     async fetchParticipants() {
-        if (!CONFIG.USE_JSONBIN || CONFIG.JSONBIN_BIN_ID === '6953453aae596e708fb93aa6') {
+        if (!CONFIG.USE_JSONBIN || CONFIG.JSONBIN_BIN_ID === 'YOUR_BIN_ID_HERE') {
             console.warn('JSONBin not configured, using localStorage');
             return null;
         }
@@ -48,7 +48,7 @@ const JSONBinSync = {
 
     // Save participants to JSONBin
     async saveParticipants(participants) {
-        if (!CONFIG.USE_JSONBIN || CONFIG.JSONBIN_BIN_ID === '6953453aae596e708fb93aa6') {
+        if (!CONFIG.USE_JSONBIN || CONFIG.JSONBIN_BIN_ID === 'YOUR_BIN_ID_HERE') {
             return false;
         }
 
@@ -70,7 +70,7 @@ const JSONBinSync = {
 
     // Clear all data on JSONBin
     async clearAll() {
-        if (!CONFIG.USE_JSONBIN || CONFIG.JSONBIN_BIN_ID === '6953453aae596e708fb93aa6') {
+        if (!CONFIG.USE_JSONBIN || CONFIG.JSONBIN_BIN_ID === 'YOUR_BIN_ID_HERE') {
             return false;
         }
 
