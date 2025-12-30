@@ -8,8 +8,8 @@ const CONFIG = {
     // 2. Create New Bin → Paste: {"participants":[]}
     // 3. Copy Bin ID dan X-Master-Key
     USE_JSONBIN: true, // Set true untuk pakai JSONBin.io
-    JSONBIN_BIN_ID: '6953453aae596e708fb93aa6', // Ganti dengan Bin ID dari JSONBin
-    JSONBIN_API_KEY: '$2a$10$0xvtMrtQ7pvA1LSqaUntXOtqkMfINyqr8ck7YqgBn0bbGSAzC6ise', // Ganti dengan X-Master-Key dari JSONBin
+    JSONBIN_BIN_ID: '6953453aae596e708fb93aa6', // Bin ID dari JSONBin
+    JSONBIN_API_KEY: '$2a$10$0xvtMrtQ7pvA1LSqaUntXOtqkMfINyqr8ck7YqgBn0bbGSAzC6ise', // X-Master-Key dari JSONBin
     
     SYNC_INTERVAL: 2000 // Sync setiap 2 detik
 };
@@ -337,12 +337,12 @@ window.addEventListener('error', function(e) {
 console.log('Quiz ESDM Application Loaded');
 console.log('JSONBin Sync:', CONFIG.USE_JSONBIN ? 'Enabled' : 'Disabled');
 if (CONFIG.USE_JSONBIN) {
-    console.log('JSONBin Configured:', CONFIG.JSONBIN_BIN_ID !== '6953453aae596e708fb93aa6' ? 'YES ✓' : 'NO - Please configure!');
+    console.log('JSONBin Configured:', CONFIG.JSONBIN_BIN_ID !== 'YOUR_BIN_ID_HERE' ? 'YES ✓' : 'NO - Please configure!');
 }
 console.log('Question Bank Size:', typeof questionBank !== 'undefined' ? questionBank.length : 'Not loaded');
 
 // Auto-sync from cloud every interval
-if (CONFIG.USE_JSONBIN && CONFIG.JSONBIN_BIN_ID !== '6953453aae596e708fb93aa6') {
+if (CONFIG.USE_JSONBIN && CONFIG.JSONBIN_BIN_ID !== 'YOUR_BIN_ID_HERE') {
     setInterval(async () => {
         await QuizApp.getParticipants(); // Fetch latest dari cloud
     }, CONFIG.SYNC_INTERVAL);
